@@ -1,0 +1,60 @@
+{
+    "info": {
+        "company_name": "Fsi FM",
+        "company_subname": "Facility Management Company from Upminster"
+    },
+    "features": [
+        {
+            "feature_title": "This is a cool feature1",
+            "feature_text": "This is just an examplary text about a first feature of the company",
+            "feature_icon": "fa-download"
+        },
+        {
+            "feature_title": "This is a cool feature2",
+            "feature_text": "This is just an examplary text about a second feature of the company",
+            "feature_icon": "fa-mobile"
+        },
+        {
+            "feature_title": "This is a cool feature3",
+            "feature_text": "This is just an examplary text about a third feature of the company",
+            "feature_icon": "fa-users"
+        },
+        {
+            "feature_title": "This is a cool feature4",
+            "feature_text": "This is just an examplary text about a forth feature of the company",
+            "feature_icon": "fa-mobile"
+        }
+    ],
+    "pictures": [
+        "http://media.wiley.com/product_data/coverImage300/6X/11190920/111909206X.jpg",
+        "http://media.wiley.com/product_data/coverImage300/6X/11190920/111909206X.jpg",
+        "http://media.wiley.com/product_data/coverImage300/6X/11190920/111909206X.jpg",
+        "http://media.wiley.com/product_data/coverImage300/6X/11190920/111909206X.jpg",
+        "http://media.wiley.com/product_data/coverImage300/6X/11190920/111909206X.jpg",
+        "http://media.wiley.com/product_data/coverImage300/6X/11190920/111909206X.jpg"
+    ],
+    "urls": [
+        {
+            "platform": "iOS",
+            "url": "http://www.apple.com",
+            "icon": "fa-apple"
+        },
+        {
+            "platform": "Android",
+            "url": "https://www.google.com",
+            "icon": "fa-android"
+        },
+        {
+            "platform": "Windows",
+            "url": "http://www.microsoft.com",
+            "icon": "fa-windows"
+        }
+    ],
+    "colors": {
+        "background": "72a0e5",
+        "text": "aaaaaa"
+    },
+    "video": {
+        "url": "http://player.vimeo.com/video/70984663"
+    }
+}

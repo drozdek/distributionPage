@@ -1,0 +1,14 @@
+{
+  "name": "distribution_page",
+  "version": "0.1.0",
+  "description": "Create Distribution Pages dynamically",
+  "main": "index.html",
+  "scripts": {
+    "test": ""
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "ejs": "^2.5.7"
+  },
+  "author": "Rafal Drozdowski (Drozdek), 2017yr"
+}
