@@ -18,22 +18,40 @@ var fs = require('fs'),
   exec = require('child_process').exec,
   os = require('os');
 
-var CFG_FILE = './config/distribution_page_config.json',
-  TMPL = './views/tmpl.ejs';
+// define static common path 
+const commonPath = "/source/FSI_Concept_Advantage_Container/concept_advantage_container";
 
-// slice args
+// get current path
+var cPath = __dirname;
+
+// same template for all tenants
+var TMPL = cPath + '/../template/tmpl.ejs',
+
+  // config differs for each tenant
+  CFG_FILE = cPath + '/config/distribution_page_config.json',
+
+  // define parent folder for tenant apps
+  APP_FOLDER = commonPath + '/apps/FSI',
+
+  // same assets folder for all tenants  
+  ASSETS_FOLDER = '../assets';
+
+var obj = {};
+
+// slice args 
 var arg = process.argv.slice(2);
 
-// define static cmd for each platform
-// to copy folder with its content
+// define commands for each platform
 if (os.platform() === 'win32') {
   var cmd = {
-    'FOLDER_COPY': 'xcopy /E assets ',
+    'folder_copy': 'xcopy /E assets ',
+    'folder_create': 'md'
   };
 }
 else if (os.platform() === 'darwin') {
   var cmd = {
-    'FOLDER_COPY': 'cp -R assets'
+    'folder_copy': 'cp -R ',
+    'folder_create': 'mkdir'
   };
 }
 
@@ -46,12 +64,17 @@ switch (arg[0]) {
 
     var res = regex.test(paramPath);
     if (!res) {
-      var normalizedPath = ph.normalize(paramPath);
-      createFolder(resolvePath(normalizedPath));
-
       // execute native commands
-      // copy the assets folder
-      exec(cmd.FOLDER_COPY + ' ' + paramPath + ph.sep, (err, stdout, stderr) => {
+      // copy the assets folder 
+      obj.path = APP_FOLDER + ph.sep + paramPath;
+
+      //create folder       
+      createFolder(obj.path);
+
+      // create command to execute
+      var cmmd = cmd.folder_copy + ASSETS_FOLDER + ' ' + obj.path + '/assets';
+      //console.log(cmd);
+      exec(cmmd, (err, stdout, stderr) => {
         if (err)
           console.log(err);
         else if (stdout)
@@ -59,7 +82,6 @@ switch (arg[0]) {
         else if (stderr)
           console.log(stderr);
       });
-
     }
     else {
       console.log('path incorrect');
@@ -79,7 +101,11 @@ if (arg.length === 0) {
   usage();
 }
 
-/* error function */
+/**
+* report error
+* @method onError
+* @param {object} 
+*/
 function onError(err) {
   if (err) {
     throw err
@@ -87,40 +113,44 @@ function onError(err) {
   }
 }
 
-/* usage info */
+/**
+* @method usage
+* @return {object} console
+*  
+*/
 function usage() {
   var ret = '\n Usage: node script.js -i folder_path';
   return console.log(ret);
 }
 
-/* save output*/
-//var folderName = obj.company_name_header.replace(/\s/, '').toLowerCase();
-
-/* create directory if doesn't exist */
+/**
+* create folder
+* @method createFolder
+*/
 function createFolder(folderName) {
-  if (!fs.existsSync(folderName)) {
-    fs.mkdirSync(folderName);
-    creteDistributionPage(folderName);
-  }
-  else {
-    creteDistributionPage(folderName);
-    console.log('Folder ' + folderName + ' exists. Creating a page only.');
-  }
+  createFolderPath(folderName);
 }
 
-/* create absoute path */
+/**
+* resolve path
+* @method resolvePath
+* @param {string} path
+* @return {string} path
+*/
 function resolvePath(path) {
   return ph.resolve(path);
 }
 
-
-/* create a Distribution Page */
-function creteDistributionPage(folderName) {
+/**
+* create distribution html page 
+* @method creteDistributionPage
+*/
+function creteDistributionPage() {
 
   /* read config file */
   var configFile = fs.readFileSync(CFG_FILE, 'utf8');
   var cfg = JSON.parse(configFile);
-  //console.log(cfg);
+
 
   /* get all information from config file */
   var obj = {
@@ -142,13 +172,14 @@ function creteDistributionPage(folderName) {
     }
   }
 
+  console.log('TMPL: ' + TMPL);
 
   fs.readFile(TMPL, (err, data) => {
     var data = data.toString();
 
     var res = ejs.render(data, {
-      company_name_header: obj.company_name,
-      company_name_subheader: obj.company_subname,
+      company_name: obj.company_name,
+      company_subname: obj.company_subname,
       features: obj.features,
       pictures: obj.pictures,
       urls: obj.urls,
@@ -160,13 +191,31 @@ function creteDistributionPage(folderName) {
     // render template with data obj
     ejs.render(TMPL, res);
 
-    fs.writeFile(folderName + '/index.html', res,
+    APP_FOLDER += ph.sep + arg[1];
+
+    fs.writeFile(APP_FOLDER + '/index.html', res,
       function (err) {
         onError(err);
       }, function () {
-        console.log('Success: File saved in folder ' + folderName);
+        console.log('Success: File saved in folder ' + APP_FOLDER);
       });
-
   })
+}
 
+/**
+* @method createFolderPath
+* @param {string} path 
+* @return {currDir}
+*/
+function createFolderPath(path) {
+  console.log('inside createFolderPath: ' + path);
+  const initDir = ph.isAbsolute(path) ? ph.sep : '';
+  path.split(ph.sep).reduce((parentDir, childDir) => {
+    const curDir = ph.resolve(parentDir, childDir);
+    if (!fs.existsSync(curDir)) {
+      fs.mkdirSync(curDir);
+      creteDistributionPage();
+    }
+    return curDir;
+  }, initDir);
 }

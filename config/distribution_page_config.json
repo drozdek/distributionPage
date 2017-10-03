@@ -1,26 +1,26 @@
 {
     "info": {
-        "company_name": "Fsi FM",
-        "company_subname": "Facility Management Company from Upminster"
+        "company_name": "Title",
+        "company_subname": "Magical subtitle"
     },
     "features": [
         {
-            "feature_title": "This is a cool feature1",
+            "feature_title": "This is a eature 1",
             "feature_text": "This is just an examplary text about a first feature of the company",
             "feature_icon": "fa-download"
         },
         {
-            "feature_title": "This is a cool feature2",
+            "feature_title": "This is a feature 2",
             "feature_text": "This is just an examplary text about a second feature of the company",
             "feature_icon": "fa-mobile"
         },
         {
-            "feature_title": "This is a cool feature3",
+            "feature_title": "This is a feature 3",
             "feature_text": "This is just an examplary text about a third feature of the company",
             "feature_icon": "fa-users"
         },
         {
-            "feature_title": "This is a cool feature4",
+            "feature_title": "This is a feature 4",
             "feature_text": "This is just an examplary text about a forth feature of the company",
             "feature_icon": "fa-mobile"
         }
@@ -51,7 +51,7 @@
         }
     ],
     "colors": {
-        "background": "72a0e5",
+        "background": "a2a2a2",
         "text": "aaaaaa"
     },
     "video": {
