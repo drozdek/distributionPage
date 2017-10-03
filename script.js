@@ -219,3 +219,4 @@ function createFolderPath(path) {
     return curDir;
   }, initDir);
 }
+
